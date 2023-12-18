@@ -1,0 +1,1 @@
+// TODO add menu items with translation in pt in ./pt.json file.
