@@ -4,6 +4,8 @@ import * as url from "./url_helper";
 
 const api = new APIClient();
 
+export const postRegisterUser = (data: any) => api.create(url.REGISTER_USER, data);
+
 // Gets the logged in user data from local session
 export const getLoggedInUser = () => {
   const user = localStorage.getItem("user");

@@ -8,6 +8,9 @@ import { useFormik } from "formik";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+//input masks
+import Masks, { InputCPF, InputCNPJ } from "pages/Forms/Masks/Masks";
+
 // action
 import { registerUser, resetRegisterFlag } from "../../slices/thunks";
 
@@ -26,17 +29,14 @@ const Register = () => {
     const history = useNavigate();
     const dispatch: any = useDispatch();
     const [loader, setLoader] = useState<boolean>(false);
-    
+
     const messageValidation = "Por favor, preencha este campo";
-    
+
     Yup.setLocale({
         string: {
             email: "Digite um email válido",
             min: "Preencha com no mínimo ${min} caractéres",
             max: "Preencha com no máximo ${max} caractéres",
-        },
-        number: {
-            
         },
     });
 
@@ -151,7 +151,7 @@ const Register = () => {
                                                         Já existe um cadastro com esse email... <Link to="/login">Login</Link></div></Alert>
                                                 ) : null}
 
-                                                <Row md={12} className="mb-3" onChange={changeTipoPessoa}>
+                                                <Row className="mb-3" onChange={changeTipoPessoa}>
                                                     <Col>
                                                         <div className="form-check">
                                                             <Input className="form-check-input" name="tipoPessoa" type="radio" id="pessoaFisica" value="pessoaFisica" defaultChecked />
@@ -170,83 +170,73 @@ const Register = () => {
                                                     </Col>
                                                 </Row>
                                                 {tipoPessoa === "pessoaFisica" ?
-                                                <div className="mb-3">
-                                                    <Label htmlFor="username" className="form-label">Nome <span className="text-danger">*</span></Label>
-                                                    <Input
-                                                        name="nome"
-                                                        type="text"
-                                                        placeholder="Digite seu nome"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        value={validation.values.nome || ""}
-                                                        invalid={
-                                                            validation.touched.nome && validation.errors.nome ? true : false
-                                                        }
-                                                    />
-                                                    {validation.touched.nome && validation.errors.nome ? (
-                                                        <FormFeedback type="invalid"><div>{validation.errors.nome}</div></FormFeedback>
-                                                    ) : null}
+                                                    <div className="mb-3">
+                                                        <Label htmlFor="username" className="form-label">Nome <span className="text-danger">*</span></Label>
+                                                        <Input
+                                                            id="nome"
+                                                            name="nome"
+                                                            type="text"
+                                                            placeholder="Digite seu nome"
+                                                            onChange={validation.handleChange}
+                                                            onBlur={validation.handleBlur}
+                                                            value={validation.values.nome || ""}
+                                                            invalid={
+                                                                validation.touched.nome && validation.errors.nome ? true : false
+                                                            }
+                                                        />
+                                                        {validation.touched.nome && validation.errors.nome ? (
+                                                            <FormFeedback type="invalid"><div>{validation.errors.nome}</div></FormFeedback>
+                                                        ) : null}
 
-                                                </div>
-                                                :
-                                                <div className="mb-3">
-                                                    <Label htmlFor="username" className="form-label">Razão Social <span className="text-danger">*</span></Label>
-                                                    <Input
-                                                        name="nome"
-                                                        type="text"
-                                                        placeholder="Digite a razão social"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        value={validation.values.nome || ""}
-                                                        invalid={
-                                                            validation.touched.nome && validation.errors.nome ? true : false
-                                                        }
-                                                    />
-                                                    {validation.touched.nome && validation.errors.nome ? (
-                                                        <FormFeedback type="invalid"><div>{validation.errors.nome}</div></FormFeedback>
-                                                    ) : null}
+                                                    </div>
+                                                    :
+                                                    <div className="mb-3">
+                                                        <Label htmlFor="username" className="form-label">Razão Social <span className="text-danger">*</span></Label>
+                                                        <Input
+                                                            id="nome"
+                                                            name="nome"
+                                                            type="text"
+                                                            placeholder="Digite a razão social"
+                                                            onChange={validation.handleChange}
+                                                            onBlur={validation.handleBlur}
+                                                            value={validation.values.nome || ""}
+                                                            invalid={
+                                                                validation.touched.nome && validation.errors.nome ? true : false
+                                                            }
+                                                        />
+                                                        {validation.touched.nome && validation.errors.nome ? (
+                                                            <FormFeedback type="invalid"><div>{validation.errors.nome}</div></FormFeedback>
+                                                        ) : null}
 
-                                                </div>
+                                                    </div>
                                                 }
 
                                                 {tipoPessoa === "pessoaFisica" ?
-                                                <div className="mb-3">
-                                                    <Label htmlFor="cpf_cnpj" className="form-label">CPF <span className="text-danger">*</span></Label>
-                                                    <Input
-                                                        name="cpf_cnpj"
-                                                        type="text"
-                                                        placeholder="Insira seu CPF"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        value={validation.values.cpf_cnpj || ""}
-                                                        invalid={
-                                                            validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? true : false
-                                                        }
-                                                    />
-                                                    {validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? (
-                                                        <FormFeedback type="invalid"><div>{validation.errors.cpf_cnpj}</div></FormFeedback>
-                                                    ) : null}
-
-                                                </div>
-                                                :
-                                                <div className="mb-3">
-                                                    <Label htmlFor="cpf_cnpj" className="form-label">CNPJ <span className="text-danger">*</span></Label>
-                                                    <Input
-                                                        name="cpf_cnpj"
-                                                        type="text"
-                                                        placeholder="Insira o CNPJ"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        value={validation.values.cpf_cnpj || ""}
-                                                        invalid={
-                                                            validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? true : false
-                                                        }
-                                                    />
-                                                    {validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? (
-                                                        <FormFeedback type="invalid"><div>{validation.errors.cpf_cnpj}</div></FormFeedback>
-                                                    ) : null}
-
-                                                </div>
+                                                    <div className="mb-3">
+                                                        <Label htmlFor="cpf_cnpj" className="form-label">CPF <span className="text-danger">*</span></Label>
+                                                        <Input
+                                                            id="cpf_cnpj"
+                                                            name="cpf_cnpj"
+                                                            className="form-control"
+                                                            placeholder="Insira seu CPF"
+                                                            type="number"
+                                                            onChange={validation.handleChange}
+                                                            onBlur={validation.handleBlur}
+                                                            value={validation.values.cpf_cnpj || ""}
+                                                            invalid={
+                                                                validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? true : false
+                                                            }
+                                                        />
+                                                        {validation.touched.cpf_cnpj && validation.errors.cpf_cnpj ? (
+                                                            <FormFeedback type="invalid"><div>{validation.errors.cpf_cnpj}</div></FormFeedback>
+                                                        ) : null}
+                                                        <InputCPF />
+                                                    </div>
+                                                    :
+                                                    <div className="mb-3">
+                                                        <Label htmlFor="cpf_cnpj" className="form-label">CNPJ <span className="text-danger">*</span></Label>
+                                                        <InputCNPJ />
+                                                    </div>
                                                 }
 
                                                 <div className="mb-3">
@@ -284,14 +274,14 @@ const Register = () => {
                                                             invalid={
                                                                 validation.touched.password && validation.errors.password ? true : false
                                                             }
-                                                            />
+                                                        />
                                                         {validation.touched.password && validation.errors.password ? (
                                                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                                                            ) : null}
+                                                        ) : null}
                                                         <button className="btn btn-link position-absolute mr-1 end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon" onClick={() => setPasswordShow(!passwordShow)}><i className="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div className="mb-3">
                                                     <Label className="form-label" htmlFor="confirm_password">Confirmar Senha <span className="text-danger">*</span></Label>
                                                     <div className="form-label position-relative auth-pass-inputgroup mb-3">
@@ -306,10 +296,10 @@ const Register = () => {
                                                             invalid={
                                                                 validation.touched.confirm_password && validation.errors.confirm_password ? true : false
                                                             }
-                                                            />
+                                                        />
                                                         {validation.touched.confirm_password && validation.errors.confirm_password ? (
                                                             <FormFeedback type="invalid">{validation.errors.confirm_password}</FormFeedback>
-                                                            ) : null}
+                                                        ) : null}
                                                         <button className="btn btn-link position-absolute mr-1 end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon" onClick={() => setPasswordShow(!passwordShow)}><i className="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
@@ -323,9 +313,9 @@ const Register = () => {
 
                                                 <div className="mt-1">
                                                     <p className="mt-1 fs-12 text-muted fst-italic">Ao se cadastrar você aceita nossos
-                                                        <Link to="#" className="m-1 text-primary text-decoration-underline fst-normal fw-medium">termos de uso</Link></p>
+                                                        <Link to="#" className="m-1 text-primary text-decoration-underline fst-normal fw-medium">termos de uso</Link>.</p>
                                                 </div>
-                                                
+
                                                 <div className="mt-4 text-center">
                                                     <div className="signin-other-title">
                                                         <h5 className="fs-13 mb-1 title text-muted">Cadastre-se com</h5>

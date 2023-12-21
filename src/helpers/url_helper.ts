@@ -1,5 +1,9 @@
+//INSUR API
 //REGISTER
-export const POST_FAKE_REGISTER = "/auth/signup";
+export const REGISTER_USER = "/usuarios"
+
+//REGISTER
+export const POST_FAKE_REGISTER = "/usuarios";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/auth/signin";

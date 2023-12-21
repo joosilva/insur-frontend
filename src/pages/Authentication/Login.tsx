@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // actions
-import { loginUser, socialLogin, resetLoginFlag } from "../../slices/thunks";
+import { registerUser, loginUser, socialLogin, resetLoginFlag } from "../../slices/thunks";
 
 import logoLight from "../../assets/images/logo-light.png";
 import { createSelector } from 'reselect';
@@ -73,7 +73,7 @@ const Login = (props: any) => {
             password: Yup.string().required(messageValidation),
         }),
         onSubmit: (values) => {
-            dispatch(loginUser(values, props.router.navigate));
+            dispatch(registerUser(values));
             setLoader(true)
         }
     });

@@ -1,9 +1,256 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Row } from 'reactstrap';
+import InputMask from "react-input-mask";
 import BreadCrumb from '../../../Components/Common/BreadCrumb';
 import Cleave from "cleave.js/react";
 import "cleave.js/dist/addons/cleave-phone.in";
 
+const InputCPF = () => {
+  const [cpf, setCpf] = useState("");
+
+  function onCpfChange(e: any) {
+    setCpf(e.target.rawValue);
+  };
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <InputMask
+          mask={"999.999.999-99"}
+          placeholder="000.000.000-00"
+          value={cpf}
+          onChange={(e: any) => onCpfChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputCNPJ = () => {
+  const [cnpj, setCnpj] = useState("");
+
+  function onCnpjChange(e: any) {
+    setCnpj(e.target.rawValue);
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="00.000.000/0000-00"
+          options={{
+            numericOnly: true,
+            delimiters: [".", ".", "/", "-"],
+            blocks: [2, 3, 3, 4, 2],
+          }}
+          value={cnpj}
+          onChange={(e: any) => onCnpjChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputDate = () => {
+  const [date, setDate] = useState("");
+
+  function onDateChange(e: any) {
+    setDate(e.target.rawValue);
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="DD/MM/YYYY"
+          options={{
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+          }}
+          value={date}
+          onChange={(e: any) => onDateChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputDateFormat = () => {
+  const [dateFormat, setDateFormat] = useState("");
+
+  function onDateFormatChange(e: any) {
+    setDateFormat(e.target.rawValue);
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="MM/YYYY"
+          options={{
+            date: true,
+            datePattern: ['m', 'Y']
+          }}
+          value={dateFormat}
+          onChange={(e: any) => onDateFormatChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputTime = () => {
+  const [time, setTime] = useState("");
+
+  function onTimeChange(e: any) {
+    setTime(e.target.rawValue);
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="hh:mm:ss"
+          options={{
+            time: true,
+            timePattern: ['h', 'm', 's']
+          }}
+          value={time}
+          onChange={(e: any) => onTimeChange(e)}
+          className="form-control"
+        />
+      </div>
+
+    </Col>
+  )
+}
+
+const InputTimeFormat = () => {
+  const [timeFormat, setTimeFormat] = useState("");
+
+  function onTimeFormatChange(e: any) {
+    setTimeFormat(e.target.rawValue);
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="hh:mm"
+          options={{
+            time: true,
+            timePattern: ['h', 'm']
+          }}
+          value={timeFormat}
+          onChange={(e: any) => onTimeFormatChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputCreditCard = () => {
+  const [creditCardNo, setCreditCardNo] = useState("");
+
+  function onCreditCardChange(e: any) {
+    setCreditCardNo(e.target.rawValue)
+  }
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder="xxxx xxxx xxxx xxxx"
+          options={{
+            creditCard: true,
+          }}
+          value={creditCardNo}
+          onChange={(e: any) => onCreditCardChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+const InputDelimiter: FC<DelimiterProps> = (props): JSX.Element => {
+  const [delimiter, setDelimiter] = useState("");
+
+  function onDelimiterChange(e: any) {
+    setDelimiter(e.target.rawValue);
+  }
+
+  const claveProps = props;
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave
+          placeholder={claveProps.placeholder}
+          options={{
+            delimiter: claveProps.options.delimiter,
+            blocks: claveProps.options.blocks,
+            uppercase: claveProps.options.uppercase
+          }}
+          value={delimiter}
+          onChange={(e: any) => onDelimiterChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+interface DelimiterProps {
+  placeholder: string,
+  options: {
+    delimiter: string,
+    blocks: [number],
+    uppercase: boolean
+  }
+}
+
+const InputPrefix: FC<PrefixProps> = (props): JSX.Element => {
+  const [prefix, setPrefix] = useState("");
+
+  function onPrefixChange(e: any) {
+    setPrefix(e.target.rawValue);
+  }
+
+  const cleaveProps = props;
+
+  return (
+    <Col>
+      <div className="mb-3">
+        <Cleave 
+          options={{
+            prefix: props.prefix,
+            delimiter: props.delimiter,
+            blocks: props.blocks,
+            uppercase: props.uppercase
+          }}
+          value={prefix && props.value}
+          onChange={(e: any) => onPrefixChange(e)}
+          className="form-control"
+        />
+      </div>
+    </Col>
+  )
+}
+
+interface PrefixProps {
+  prefix: string,
+  delimiter: string,
+  blocks: [number],
+  uppercase: boolean,
+  value:boolean
+}
 
 const Masks = () => {
   const [date, setDate] = useState("");
@@ -18,54 +265,54 @@ const Masks = () => {
   const [number, setNumber] = useState("");
 
   //Date 
-  function onDateChange(e : any) {
+  function onDateChange(e: any) {
     setDate(e.target.rawValue);
   }
   //Date Format
-  function onDateFormatChange(e : any) {
+  function onDateFormatChange(e: any) {
     setDateFormat(e.target.rawValue);
   }
   //Time 
-  function onTimeChange(e : any) {
+  function onTimeChange(e: any) {
     setTime(e.target.rawValue);
   }
   //Time Format
-  function onTimeFormatChange(e : any) {
+  function onTimeFormatChange(e: any) {
     setTimeFormat(e.target.rawValue);
   }
   //Credit card 
-  function onCreditCardChange(e : any) {
+  function onCreditCardChange(e: any) {
     setCreditCardNo(e.target.rawValue);
   }
 
   //Delimeter
-  function onDelimiterChange(e : any) {
+  function onDelimiterChange(e: any) {
     setDelimiter(e.target.rawValue);
   }
   //Delimeter
-  function onDelimiterChange2(e : any) {
+  function onDelimiterChange2(e: any) {
     setDelimiter2(e.target.rawValue);
   }
 
   //Prefix
-  function onPrefixChange(e : any) {
+  function onPrefixChange(e: any) {
     setPrefix(e.target.rawValue);
   }
   //Phone
-  function onPhoneChange(e : any) {
+  function onPhoneChange(e: any) {
     setPhone(e.target.rawValue);
   }
   //Number
-  function onNumberChange(e : any) {
+  function onNumberChange(e: any) {
     setNumber(e.target.rawValue);
   }
 
-document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
+  document.title = "Input Masks | Velzon - React Admin & Dashboard Template";
 
   return (
     <React.Fragment>
       <div className="page-content">
-        
+
         <Container fluid>
           <BreadCrumb title="Input Masks" pageTitle="Forms" />
           <Row>
@@ -91,7 +338,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 datePattern: ['d', 'm', 'Y']
                               }}
                               value={date}
-                              onChange={(e : any) => onDateChange(e)}
+                              onChange={(e: any) => onDateChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -101,13 +348,13 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                           <div className="mb-3">
                             <label htmlFor="cleave-date-format" className="form-label">Date Formatting</label>
                             <Cleave
-                              placeholder="MM/YY"
+                              placeholder="MM/YYYY"
                               options={{
                                 date: true,
-                                datePattern: ['m', 'y']
+                                datePattern: ['m', 'Y']
                               }}
                               value={dateFormat}
-                              onChange={(e : any) => onDateFormatChange(e)}
+                              onChange={(e: any) => onDateFormatChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -130,7 +377,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 timePattern: ['h', 'm', 's']
                               }}
                               value={time}
-                              onChange={(e : any) => onTimeChange(e)}
+                              onChange={(e: any) => onTimeChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -147,12 +394,12 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 timePattern: ['h', 'm']
                               }}
                               value={timeFormat}
-                              onChange={(e : any) => onTimeFormatChange(e)}
+                              onChange={(e: any) => onTimeFormatChange(e)}
                               className="form-control"
                             />
                           </div>
                         </Col>
-                      </Row>         
+                      </Row>
                     </div>
 
                     <div className="border mt-3 border-dashed"></div>
@@ -169,7 +416,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 creditCard: true,
                               }}
                               value={creditCardNo}
-                              onChange={(e : any) => onCreditCardChange(e)}
+                              onChange={(e: any) => onCreditCardChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -187,7 +434,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 uppercase: true
                               }}
                               value={delimiter}
-                              onChange={(e : any) => onDelimiterChange(e)}
+                              onChange={(e: any) => onDelimiterChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -206,7 +453,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 uppercase: true
                               }}
                               value={delimiter2}
-                              onChange={(e : any) => onDelimiterChange2(e)}
+                              onChange={(e: any) => onDelimiterChange2(e)}
                               className="form-control"
                             />
                           </div>
@@ -223,7 +470,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 uppercase: true
                               }}
                               value={prefix}
-                              onChange={(e : any) => onPrefixChange(e)}
+                              onChange={(e: any) => onPrefixChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -257,7 +504,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
                                 numeralThousandsGroupStyle: 'thousand'
                               }}
                               value={number}
-                              onChange={(e : any) => onNumberChange(e)}
+                              onChange={(e: any) => onNumberChange(e)}
                               className="form-control"
                             />
                           </div>
@@ -274,5 +521,7 @@ document.title ="Input Masks | Velzon - React Admin & Dashboard Template";
     </React.Fragment>
   );
 };
+
+export { InputCPF, InputCNPJ, InputDate, InputDateFormat, InputTime, InputTimeFormat, InputCreditCard, InputDelimiter, InputPrefix };
 
 export default Masks;
